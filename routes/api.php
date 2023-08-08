@@ -14,14 +14,18 @@ use App\Http\Controllers\Admin;
 
 
 Route::group([
-    'middleware' => 'auth:admin',
+    'middleware' => 'auth:sanctum',
     'prefix' => 'be',
     'except' => ['login', 'demo']
 ], function () {
     Route::get('demo', function () {
         return response('OK');
     });
+    // Auth route
     Route::post('auth/login', [Admin\AuthController::class, 'login'])->withoutMiddleware('auth:admin');
     Route::post('auth/register', [Admin\AuthController::class, 'register'])->withoutMiddleware('auth:admin');
     Route::get('user/profile', [Admin\AuthController::class, 'profile']);
+    Route::get('auth/logout', [Admin\AuthController::class, 'logout']);
+
+    Route::get('protected-resource', [Admin\ProtectedSampleController::class, 'sampleProtected']);
 });

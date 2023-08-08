@@ -27,9 +27,9 @@ Artisan::command('run', function () {
 })->purpose('Run server');
 
 Artisan::command('admin:user', function () {
-    $username = $this->ask('请输入用户名:');
-    $email = $this->ask('请输入邮箱:');
-    $password = $this->secret('请输入密码:');
+    $username = $this->ask('Admin Username:');
+    $email = $this->ask('Email:');
+    $password = $this->secret('Password:');
 
     $user = AdminUser::create([
         'name' => $username,
@@ -37,7 +37,7 @@ Artisan::command('admin:user', function () {
         'password' => Hash::make($password)
     ]);
 
-    $this->info('用户创建成功');
-    $this->info('用户名: ' . $user->name);
-    $this->info('用户邮箱: ' . $user->email);
+    $this->info('Admin User Created.');
+    $this->info('Username: ' . $user->name);
+    $this->info('Email(account): ' . $user->email);
 });

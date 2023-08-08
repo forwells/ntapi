@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
@@ -19,31 +20,59 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $cd = $request->only(['email', 'password']);
-        // logger(json_encode($cd));
-        // logger(json_encode(file_get_contents('php://input')));
         if (!$token = auth('admin')->attempt($cd)) {
             return response()->json(['error' => '登录信息有误, 请确认账号密码是否正确'], 401);
         }
 
-        return $this->token_response($token);
+        $user = AdminUser::where('email', $cd['email'])->firstOrFail();
+
+        $token = $user->createToken($user->email);
+
+        $data = array_merge($user, [
+            'access_token' => $token->plainTextToken,
+            'expires' => config('sanctum.expiration'),
+        ]);
+        return response()->json($data);
     }
 
 
+    /**
+     * 注册
+     * @param Request $request
+     * @return void
+     */
     public function register(Request $request)
     {
+        return abort(500);
     }
 
+    /**
+     * 个人信息
+     * @param Request $request
+     * @return JsonResponse
+     * @throws BindingResolutionException
+     */
     public function profile(Request $request)
     {
         $user = $request->user();
         return response()->json($user);
     }
 
-    protected function token_response($token)
+    /**
+     * 登出
+     * @param Request $request
+     * @return JsonResponse
+     * @throws BindingResolutionException
+     */
+    public function logout(Request $request)
     {
-        return response()->json([
-            'token' => $token,
-            'expires_in' => auth('admin')->factory()->getTTL() * 60
-        ]);
+        try {
+            $user = $request->user();
+            $user->currentAccessToken()->delete();
+            return response()->json(['msg' => '退出成功.']);
+        } catch (\Exception $e) {
+            logger('用户登出异常:' . $e->getMessage());
+            return response()->json(['msg' => '退出登录失败'], 500);
+        }
     }
 }
