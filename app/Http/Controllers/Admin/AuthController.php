@@ -29,7 +29,7 @@ class AuthController extends Controller
         $token = $user->createToken($user->email);
 
         $data = array_merge($user, [
-            'access_token' => $token->plainTextToken,
+            'token' => $token->plainTextToken,
             'expires' => config('sanctum.expiration'),
         ]);
         return response()->json($data);
