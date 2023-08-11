@@ -8,10 +8,11 @@ use App\Models\Traits\HasDateTimeFormatter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Kra8\Snowflake\HasSnowflakePrimary;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasDateTimeFormatter;
+    use HasFactory, Notifiable, HasDateTimeFormatter, HasSnowflakePrimary;
 
     /**
      * The attributes that are mass assignable.

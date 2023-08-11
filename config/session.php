@@ -53,9 +53,9 @@ return [
     | Session File Location
     |--------------------------------------------------------------------------
     |
-    | When using the native session driver, we need a location where session
-    | files may be stored. A default has been set for you but a different
-    | location may be specified. This is only needed for file sessions.
+    | 当使用本机会话驱动程序时，我们需要一个放置会话的位置
+    |可以存储文件。已为您设置默认值，但不同
+    |可以指定位置。仅文件会话需要此操作。
     |
     */
 

@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdminUser;
+use Hash;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 
+/**
+ * Sanctum Session 身份验证
+ * @package App\Http\Controllers\Admin
+ */
 class AuthController extends Controller
 {
 
@@ -20,7 +25,10 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $cd = $request->only(['email', 'password']);
-        if (!$token = auth('admin')->attempt($cd)) {
+
+        $user = AdminUser::where('email', $cd['email'])->first();
+
+        if (!$user || !Hash::check($cd['password'], $user->password)) {
             return response()->json(['error' => '登录信息有误, 请确认账号密码是否正确'], 401);
         }
 
@@ -28,7 +36,7 @@ class AuthController extends Controller
 
         $token = $user->createToken($user->email);
 
-        $data = array_merge($user, [
+        $data = array_merge($user->toArray(), [
             'token' => $token->plainTextToken,
             'expires' => config('sanctum.expiration'),
         ]);

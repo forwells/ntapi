@@ -22,8 +22,8 @@ Route::group([
         return response('OK');
     });
     // Auth route
-    Route::post('auth/login', [Admin\AuthController::class, 'login'])->withoutMiddleware('auth:admin');
-    Route::post('auth/register', [Admin\AuthController::class, 'register'])->withoutMiddleware('auth:admin');
+    Route::post('auth/login', [Admin\AuthController::class, 'login'])->withoutMiddleware('auth:sanctum');
+    Route::post('auth/register', [Admin\AuthController::class, 'register'])->withoutMiddleware('auth:sanctum');
     Route::get('user/profile', [Admin\AuthController::class, 'profile']);
     Route::get('auth/logout', [Admin\AuthController::class, 'logout']);
 

@@ -3,6 +3,7 @@
 use App\Models\AdminUser;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Lcobucci\JWT\Signer\Key\InMemory;
 
 /*
 |--------------------------------------------------------------------------

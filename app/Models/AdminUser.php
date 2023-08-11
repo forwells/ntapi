@@ -8,11 +8,12 @@ use App\Models\Traits\HasDateTimeFormatter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Kra8\Snowflake\HasSnowflakePrimary;
 use Laravel\Sanctum\HasApiTokens;
 
 class AdminUser extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasDateTimeFormatter;
+    use HasApiTokens, HasFactory, Notifiable, HasDateTimeFormatter, HasSnowflakePrimary;
 
     protected $table = 'admin_users';
     /**
@@ -44,14 +45,4 @@ class AdminUser extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
 }
