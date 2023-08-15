@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f7f6b757f41b790be0fd2ae3696a3905",
+    "content-hash": "8cde084d1b82bf4d704ccf7db07cbe90",
     "packages": [
         {
             "name": "brick/math",
@@ -3180,71 +3180,6 @@
                 }
             ],
             "time": "2023-04-15T23:01:58+00:00"
-        },
-        {
-            "name": "saber/rbac",
-            "version": "dev-master",
-            "dist": {
-                "type": "path",
-                "url": "./packages/rbac",
-                "reference": "fad6dd90b3198123749bd907474e6a56528a51f2"
-            },
-            "require": {
-                "illuminate/support": "^8.0 || ^9.0",
-                "php": "^7.4|^8.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^6.0",
-                "phpunit/phpunit": "^9.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Saber\\Rbac\\RbacServiceProvider"
-                    ],
-                    "aliases": {
-                        "Rbac": "Saber\\Rbac\\RbacFacade"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Saber\\Rbac\\": "src"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Saber\\Rbac\\Tests\\": "tests"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "test-coverage": [
-                    "vendor/bin/phpunit --coverage-html coverage"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Yadan",
-                    "email": "rpcfolo@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Laravel RBAC utils",
-            "homepage": "https://github.com/saber/rbac",
-            "keywords": [
-                "rbac",
-                "saber"
-            ],
-            "transport-options": {
-                "relative": true
-            }
         },
         {
             "name": "symfony/console",

@@ -54,6 +54,12 @@ class AuthController extends Controller
         return abort(500);
     }
 
+    public function store(Request $request)
+    {
+        // $request->validate([''])
+    }
+
+
     /**
      * 个人信息
      * @param Request $request
