@@ -28,4 +28,17 @@ Route::group([
     Route::get('auth/logout', [Admin\AuthController::class, 'logout']);
 
     Route::get('protected-resource', [Admin\ProtectedSampleController::class, 'sampleProtected']);
+
+    // Menu route
+    Route::resources([
+        'menu' => Admin\MenusController::class,
+        'permission' => Admin\PermissionsController::class,
+        'role' => Admin\RolesController::class
+    ]);
+});
+
+Route::fallback(function () {
+    return response()->json([
+        'system' => env('SYSTEM_INFO', 'NT')
+    ]);
 });

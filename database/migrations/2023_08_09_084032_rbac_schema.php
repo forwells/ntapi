@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\AdminUser;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,29 +15,28 @@ return new class extends Migration
     public function up()
     {
         //
-        if (!Schema::hasTable(config('rbac.tables.user'))) {
-            Schema::create(config('rbac.tables.user'), function (Blueprint $table) {
-                $table->id();
-                $table->string('name');
-                $table->string('email')->unique();
-                $table->timestamp('email_verified_at')->nullable();
-                $table->string('password');
-                $table->rememberToken();
-                $table->timestamps();
-            });
-        }
-
-        Schema::create(config('rbac.tables.role'), function (Blueprint $table) {
+        Schema::create(config('rbac.tables.users'), function (Blueprint $table) {
             $table->id();
-            $table->string('slug');
-            $table->string('label');
+            $table->string('name')->unique();
+            $table->string('email')->unique();
+            $table->string('email_verified_at')->default('');
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        Schema::create(config('rbac.tables.roles'), function (Blueprint $table) {
+            $table->id();
+            $table->string('slug')->unique();
+            $table->string('label')->unique();
+            $table->timestamps();
         });
 
         Schema::create(config('rbac.tables.permissions'), function (Blueprint $table) {
             $table->id();
-            $table->string('parent');
-            $table->string('slug');
-            $table->string('label');
+            $table->string('parent')->nullable();
+            $table->string('slug')->unique();
+            $table->string('label')->unique();
             $table->string('http_method')->nullable();
             $table->string('http_path');
             $table->bigInteger('order');
@@ -47,13 +47,13 @@ return new class extends Migration
 
         Schema::create(config('rbac.tables.menus'), function (Blueprint $table) {
             $table->id();
-            $table->string('parent');
-            $table->string('label');
-            $table->string('title')->nullable();
+            $table->string('parent')->nullable();
+            $table->string('label')->unique();
+            $table->string('title')->unique()->nullable();
             $table->string('icon')->nullable();
             $table->bigInteger('order');
-            $table->string('uri');
-
+            $table->string('uri')->unique();
+            $table->timestamps();
             $table->index(['parent']);
         });
 
@@ -76,6 +76,12 @@ return new class extends Migration
 
             $table->index(['role_id', 'menu_id']);
         });
+
+        AdminUser::create([
+            'name' => 'admin',
+            'email' => 'admin@email.com',
+            'password' => Hash::make('admin123')
+        ]);
     }
 
     /**
@@ -86,5 +92,12 @@ return new class extends Migration
     public function down()
     {
         //
+        Schema::dropIfExists(config('rbac.tables.users'));
+        Schema::dropIfExists(config('rbac.tables.roles'));
+        Schema::dropIfExists(config('rbac.tables.permissions'));
+        Schema::dropIfExists(config('rbac.tables.menus'));
+        Schema::dropIfExists(config('rbac.tables.user_roles'));
+        Schema::dropIfExists(config('rbac.tables.role_permissions'));
+        Schema::dropIfExists(config('rbac.tables.role_menus'));
     }
 };

@@ -6,8 +6,8 @@
 
 return [
     'tables' => [
-        'user' => 'admin_users',
-        'role' => 'admin_roles',
+        'users' => 'admin_users',
+        'roles' => 'admin_roles',
         'permissions' => 'admin_permissions',
         'menus' => 'admin_menus',
         'user_roles' => 'admin_user_roles',

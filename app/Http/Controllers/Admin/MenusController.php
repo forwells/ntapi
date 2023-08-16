@@ -3,19 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Menus;
+use App\Models\Admin\Menu;
 use Illuminate\Http\Request;
 
 class MenusController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 获取所有菜单
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         //
+        $top = Menu::with('child')->whereNull('parent')->get();
+        return response()->json($top);
     }
 
     /**
@@ -29,17 +31,23 @@ class MenusController extends Controller
         //
         $request->validate([
             'parent' => '',
-            'label' => 'required',
+            'label' => 'required|unique:admin_menus,uri,except,id',
             'title' => '',
             'icon' => '',
+            'uri' => 'required|unique:admin_menus,uri,except,id'
         ]);
 
-        $data = $request->only(['parent', 'label', 'title', 'icon']);
+        $data = $request->only(['parent', 'label', 'title', 'icon', 'uri']);
 
+        $menu = Menu::make();
+        $menu->fill($data);
+        $menu->save();
+
+        return response()->json($menu);
     }
 
     /**
-     * Display the specified resource.
+     * 获取菜单信息
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -47,10 +55,12 @@ class MenusController extends Controller
     public function show($id)
     {
         //
+        $menu = Menu::find($id);
+        return response()->json($menu);
     }
 
     /**
-     * Update the specified resource in storage.
+     * 更新菜单信息
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -59,10 +69,27 @@ class MenusController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $request->validate([
+            'parent' => '',
+            'label' => 'required|unique:admin_menus,uri,except,id',
+            'title' => '',
+            'icon' => '',
+            'uri' => 'required|unique:admin_menus,uri,except,id'
+        ]);
+
+        $data = $request->only(['parent', 'label', 'title', 'icon', 'uri']);
+
+        $menu = Menu::find($id);
+
+        $menu->fill($data);
+
+        $menu->save();
+
+        return response()->json($menu);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 删除菜单
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -70,5 +97,12 @@ class MenusController extends Controller
     public function destroy($id)
     {
         //
+        try {
+            Menu::destroy($id);
+
+            return response()->json([]);
+        } catch (\Exception $e) {
+            return abort(404);
+        }
     }
 }
