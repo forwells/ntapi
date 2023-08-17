@@ -14,16 +14,15 @@ use App\Http\Controllers\Admin;
 
 
 Route::group([
-    'middleware' => 'auth:sanctum',
     'prefix' => 'be',
-    'except' => ['login', 'demo']
+    'middleware' => ['auth:sanctum', 'admin.permission'],
 ], function () {
     Route::get('demo', function () {
         return response('OK');
     });
     // Auth route
     Route::post('auth/login', [Admin\AuthController::class, 'login'])->withoutMiddleware('auth:sanctum');
-    Route::post('auth/register', [Admin\AuthController::class, 'register'])->withoutMiddleware('auth:sanctum');
+    Route::post('auth/register', [Admin\AuthController::class, 'register']);
     Route::get('user/profile', [Admin\AuthController::class, 'profile']);
     Route::get('auth/logout', [Admin\AuthController::class, 'logout']);
 
