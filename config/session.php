@@ -40,9 +40,9 @@ return [
     | Session Encryption
     |--------------------------------------------------------------------------
     |
-    | This option allows you to easily specify that all of your session data
-    | should be encrypted before it is stored. All encryption will be run
-    | automatically by Laravel and you can use the Session like normal.
+    | 此选项允许您轻松指定所有会话数据
+    |在存储之前应该进行加密。将运行所有加密
+    | Laravel 自动生成，您可以像平常一样使用 Session。
     |
     */
 

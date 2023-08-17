@@ -40,22 +40,22 @@ return [
     | Expiration Minutes
     |--------------------------------------------------------------------------
     |
-    | This value controls the number of minutes until an issued token will be
-    | considered expired. This will override any values set in the token's
-    | "expires_at" attribute, but first-party sessions are not affected.
+    | 该值控制颁发令牌之前的分钟数
+    | 视为已过期。这将覆盖令牌中设置的任何值
+    | “expires_at”属性，但第一方会话不受影响。
     |
     */
 
-    'expiration' => env('ADMIN_EXP', 60 * 24),
+    'expiration' => null,
 
     /*
     |--------------------------------------------------------------------------
     | Sanctum Middleware
     |--------------------------------------------------------------------------
     |
-    | When authenticating your first-party SPA with Sanctum you may need to
-    | customize some of the middleware Sanctum uses while processing the
-    | request. You may change the middleware listed below as required.
+    |当通过 Sanctum 验证您的第一方 SPA 时，您可能需要
+    |自定义 Sanctum 在处理时使用的一些中间件
+    |要求。您可以根据需要更改下面列出的中间件。
     |
     */
 

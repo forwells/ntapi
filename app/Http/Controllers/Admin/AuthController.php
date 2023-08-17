@@ -35,11 +35,11 @@ class AuthController extends Controller
 
         $user = AdminUser::where('email', $cd['email'])->firstOrFail();
 
-        $token = $user->createToken($user->email);
+        $token = $user->createToken($user->email, ['*'], now()->addMinutes(env('ADMIN_EXP')));
 
         $data = array_merge($user->toArray(), [
             'token' => $token->plainTextToken,
-            'expires' => config('sanctum.expiration'),
+            'expires' => now()->addMinutes(env('ADMIN_EXP')),
         ]);
         return response()->json($data);
     }
