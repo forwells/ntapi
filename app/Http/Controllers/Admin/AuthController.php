@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enum\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AdminUser;
-use Hash;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Sanctum Session 身份验证
@@ -33,66 +33,18 @@ class AuthController extends Controller
             return response()->json(['error' => '登录信息有误, 请确认账号密码是否正确'], 401);
         }
 
-        $user = AdminUser::where('email', $cd['email'])->firstOrFail();
-
+        $user = AdminUser::with(['roles', 'roles.permissions', 'roles.menus'])->where('email', $cd['email'])->firstOrFail();
         $token = $user->createToken($user->email, ['*'], now()->addMinutes(env('ADMIN_EXP')));
 
-        $data = array_merge($user->toArray(), [
+        if ($user->id == Admin::ADMINISTRATOR) {
+            $user = AdminUser::administrator();
+        }
+
+        $data = array_merge(is_array($user) ? $user : $user->toArray(), [
             'token' => $token->plainTextToken,
             'expires' => now()->addMinutes(env('ADMIN_EXP')),
         ]);
         return response()->json($data);
-    }
-
-
-    /**
-     * 注册
-     * @param Request $request
-     * @return void
-     */
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'email|required',
-            'password' => 'required',
-            'roles' => 'required|array'
-        ]);
-
-        try {
-            DB::beginTransaction();
-
-            $user_data = $request->only(['name', 'email', 'password']);
-            $roles = $request->only(['roles']);
-            $admin_user = AdminUser::make();
-            $admin_user->fill($user_data);
-            $admin_user->roles()->sync($roles);
-
-            DB::commit();
-
-            return response()->json($admin_user);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return abort(500, $e->getMessage());
-        }
-    }
-
-    public function store(Request $request)
-    {
-        // $request->validate([''])
-    }
-
-
-    /**
-     * 个人信息
-     * @param Request $request
-     * @return JsonResponse
-     * @throws BindingResolutionException
-     */
-    public function profile(Request $request)
-    {
-        $user = $request->user();
-        return response()->json($user);
     }
 
     /**

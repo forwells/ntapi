@@ -77,7 +77,8 @@ return new class extends Migration
             $table->index(['role_id', 'menu_id']);
         });
 
-        AdminUser::create([
+        DB::table(config('rbac.tables.users'))->insert([
+            'id' => 1,
             'name' => 'admin',
             'email' => 'admin@email.com',
             'password' => Hash::make('admin123')

@@ -30,6 +30,7 @@ Route::group([
 
     // Menu route
     Route::resources([
+        'user' => Admin\UserController::class,
         'menu' => Admin\MenusController::class,
         'permission' => Admin\PermissionsController::class,
         'role' => Admin\RolesController::class
