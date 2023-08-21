@@ -24,7 +24,7 @@ Route::group([
     Route::post('auth/login', [Admin\AuthController::class, 'login'])->withoutMiddleware('auth:sanctum');
     Route::post('auth/register', [Admin\AuthController::class, 'register']);
     Route::get('user/profile', [Admin\AuthController::class, 'profile']);
-    Route::get('auth/logout', [Admin\AuthController::class, 'logout']);
+    Route::any('auth/logout', [Admin\AuthController::class, 'logout']);
 
     Route::get('protected-resource', [Admin\ProtectedSampleController::class, 'sampleProtected']);
 

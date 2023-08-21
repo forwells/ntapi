@@ -42,7 +42,7 @@ class AuthController extends Controller
 
         $data = array_merge(is_array($user) ? $user : $user->toArray(), [
             'token' => $token->plainTextToken,
-            'expires' => now()->addMinutes(env('ADMIN_EXP')),
+            'expires' => env('ADMIN_EXP') * 60
         ]);
         return response()->json($data);
     }
