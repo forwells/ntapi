@@ -14,6 +14,7 @@ class Menu extends Model implements Sortable
     use HasFactory, HasDateTimeFormatter, SortableTrait, HasSnowflakePrimary;
 
     protected $table = 'admin_menus';
+    protected $appends = ['key'];
 
     protected $hidden = ['pivot'];
 
@@ -31,12 +32,17 @@ class Menu extends Model implements Sortable
         'uri',
     ];
 
+    protected function getKeyAttribute()
+    {
+        return $this->id;
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class, config('rbac.tables.role_menus'));
     }
 
-    public function child()
+    public function children()
     {
         return $this->hasMany(__CLASS__, 'parent', 'id');
     }

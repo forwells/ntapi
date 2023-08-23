@@ -16,7 +16,7 @@ class PermissionsController extends Controller
      */
     public function index()
     {
-        $top = Permission::with('child')->whereNull('parent')->get();
+        $top = Permission::with('children')->whereNull('parent')->get();
 
         return response()->json($top);
     }

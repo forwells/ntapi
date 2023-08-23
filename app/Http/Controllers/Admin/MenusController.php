@@ -16,7 +16,7 @@ class MenusController extends Controller
     public function index()
     {
         //
-        $top = Menu::with('child')->whereNull('parent')->get();
+        $top = Menu::with('children')->whereNull('parent')->get();
         return response()->json($top);
     }
 

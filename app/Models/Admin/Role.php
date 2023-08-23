@@ -15,12 +15,18 @@ class Role extends Model
     use HasFactory, HasDateTimeFormatter, HasSnowflakePrimary;
 
     protected $table = 'admin_roles';
+    protected $appends = ['key'];
 
     protected $hidden = ['pivot'];
 
     protected $fillable = [
         'slug', 'label'
     ];
+
+    protected function getKeyAttribute()
+    {
+        return $this->id;
+    }
 
     public function users()
     {

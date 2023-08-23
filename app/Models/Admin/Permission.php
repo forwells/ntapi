@@ -14,6 +14,7 @@ class Permission extends Model implements Sortable
     use HasFactory, HasDateTimeFormatter, SortableTrait, HasSnowflakePrimary;
 
     protected $table = 'admin_permissions';
+    protected $appends = ['key', 'title'];
 
     protected $hidden = ['pivot'];
 
@@ -31,12 +32,21 @@ class Permission extends Model implements Sortable
         'order',
     ];
 
+    protected function getKeyAttribute()
+    {
+        return $this->id;
+    }
+    protected function getTitleAttribute()
+    {
+        return $this->label;
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class, config('rbac.tables.role_permissions'));
     }
 
-    public function child()
+    public function children()
     {
         return $this->hasMany(__CLASS__, 'parent', 'id');
     }
