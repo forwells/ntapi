@@ -32,9 +32,13 @@ class Menu extends Model implements Sortable
         'uri',
     ];
 
+    protected $casts = [
+        'id' => 'string'
+    ];
+
     protected function getKeyAttribute()
     {
-        return $this->id;
+        return (string) $this->id;
     }
 
     public function roles()

@@ -51,11 +51,12 @@ class AdminUser extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'id' => 'string'
     ];
 
     protected function getKeyAttribute()
     {
-        return $this->id;
+        return (string) $this->id;
     }
 
     public function roles()

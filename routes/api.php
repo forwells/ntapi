@@ -29,12 +29,13 @@ Route::group([
     Route::get('protected-resource', [Admin\ProtectedSampleController::class, 'sampleProtected']);
 
     // Menu route
-    Route::resources([
+    Route::apiResources([
         'user' => Admin\UserController::class,
         'menu' => Admin\MenusController::class,
         'permission' => Admin\PermissionsController::class,
         'role' => Admin\RolesController::class
     ]);
+    Route::post('permission/sort', [Admin\PermissionsController::class, 'sort']);
 });
 
 Route::fallback(function () {

@@ -32,9 +32,14 @@ class Permission extends Model implements Sortable
         'order',
     ];
 
+    protected $casts = [
+        'id' => 'string',
+        'http_method' => 'array'
+    ];
+
     protected function getKeyAttribute()
     {
-        return $this->id;
+        return (string) $this->id;
     }
     protected function getTitleAttribute()
     {

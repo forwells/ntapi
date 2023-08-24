@@ -23,9 +23,13 @@ class Role extends Model
         'slug', 'label'
     ];
 
+    protected $casts = [
+        'id' => 'string'
+    ];
+
     protected function getKeyAttribute()
     {
-        return $this->id;
+        return (string) $this->id;
     }
 
     public function users()
