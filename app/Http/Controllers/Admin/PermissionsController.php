@@ -103,9 +103,13 @@ class PermissionsController extends Controller
      */
     public function destroy($id)
     {
+        $ids = [];
+
         //
         try {
-            Permission::destroy([$id]);
+            $permission_ids = Permission::with(['children'])->find($id)->toArray();
+            dd($permission_ids);
+            // Permission::destroy([$id]);
             return response()->json([]);
         } catch (\Exception $e) {
             throw $e;
