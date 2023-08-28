@@ -3,6 +3,7 @@
 namespace App\Models\Admin;
 
 use App\Models\Traits\HasDateTimeFormatter;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasSnowflakePrimary;
@@ -44,6 +45,11 @@ class Permission extends Model implements Sortable
     protected function getTitleAttribute()
     {
         return $this->label;
+    }
+
+    protected function getHttpMethodAttribute($value)
+    {
+        return $value ?: [];
     }
 
     public function roles()
