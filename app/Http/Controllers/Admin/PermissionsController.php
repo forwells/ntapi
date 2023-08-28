@@ -34,7 +34,7 @@ class PermissionsController extends Controller
             'parent' => '',
             'slug' => 'required|unique:admin_permissions,slug,except,id',
             'label' => 'required|unique:admin_permissions,label,except,id',
-            'http_method' => Rule::in(['', null, 'GET', 'POST', 'PUT', 'PATCH', 'DELETE']),
+            'http_method' => '',
             'http_path' => 'required'
         ], [
             'slug.unique' => '权限ID必须唯一'
